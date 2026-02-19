@@ -274,25 +274,6 @@ if (contactForm) {
         contactForm.reset();
     });
 }
-
-// ===== TYPING EFFECT FOR HERO TITLE (Optional Enhancement) =====
-const heroTitle = document.querySelector('.hero-title');
-if (heroTitle) {
-    const text = heroTitle.innerHTML;
-    heroTitle.innerHTML = '';
-    let i = 0;
-
-    const typeWriter = () => {
-        if (i < text.length) {
-            heroTitle.innerHTML += text.charAt(i);
-            i++;
-            setTimeout(typeWriter, 50);
-        }
-    };
-
-    setTimeout(typeWriter, 2000);
-}
-
 // ===== PARALLAX EFFECT =====
 window.addEventListener('scroll', () => {
     const scrolled = window.pageYOffset;
