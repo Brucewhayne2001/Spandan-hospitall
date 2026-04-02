@@ -497,6 +497,228 @@
 </head>
 <body>
 
+<!-- ══════════════════════════════════════════ -->
+<!--           DISCLAIMER OVERLAY              -->
+<!-- ══════════════════════════════════════════ -->
+<style>
+    #disclaimer-overlay {
+        position: fixed; inset: 0; z-index: 99999;
+        background: linear-gradient(135deg, #fff0f7 0%, #f4f8ff 50%, #fff8fc 100%);
+        display: flex; align-items: center; justify-content: center;
+        padding: 20px;
+        transition: opacity 0.6s ease, visibility 0.6s;
+    }
+    #disclaimer-overlay.hide {
+        opacity: 0; visibility: hidden; pointer-events: none;
+    }
+    .disc-card {
+        background: #ffffff;
+        border-radius: 28px;
+        padding: 52px 48px;
+        max-width: 580px; width: 100%;
+        box-shadow: 0 24px 80px rgba(194,24,91,0.14), 0 4px 20px rgba(194,24,91,0.08);
+        border: 1px solid #f3d0e8;
+        text-align: center;
+        animation: popIn 0.5s cubic-bezier(0.34,1.56,0.64,1) both;
+    }
+    @keyframes popIn {
+        from { opacity:0; transform: scale(0.88) translateY(20px); }
+        to   { opacity:1; transform: scale(1) translateY(0); }
+    }
+    .disc-logo {
+        width: 100px; height: auto;
+        border-radius: 14px;
+        object-fit: contain;
+        margin: 0 auto 24px;
+        display: block;
+        box-shadow: 0 4px 18px rgba(194,24,91,0.12);
+    }
+    .disc-badge {
+        display: inline-flex; align-items: center; gap: 7px;
+        background: #fce4ec; color: #c2185b;
+        border: 1px solid #f8a5cf;
+        padding: 5px 16px; border-radius: 50px;
+        font-size: 0.72rem; font-weight: 700;
+        letter-spacing: 1px; text-transform: uppercase;
+        margin-bottom: 18px;
+    }
+    .disc-badge i { font-size: 0.7rem; }
+    .disc-card h2 {
+        font-family: 'Cormorant Garamond', Georgia, serif;
+        font-size: 1.9rem; font-weight: 700;
+        color: #1a1423; margin-bottom: 18px; line-height: 1.25;
+    }
+    .disc-card h2 span { color: #c2185b; }
+    .disc-body {
+        background: linear-gradient(135deg, #fff8fc, #f4f8ff);
+        border: 1px solid #f3d0e8;
+        border-radius: 16px;
+        padding: 22px 24px;
+        margin-bottom: 28px;
+        text-align: left;
+    }
+    .disc-body p {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.92rem; color: #4a3f55;
+        line-height: 1.8; margin-bottom: 12px;
+    }
+    .disc-body p:last-child { margin-bottom: 0; }
+    .disc-body strong { color: #1a1423; }
+    .disc-body .disc-email {
+        display: inline-flex; align-items: center; gap: 7px;
+        background: #fce4ec; color: #c2185b;
+        padding: 6px 14px; border-radius: 50px;
+        font-size: 0.83rem; font-weight: 600;
+        text-decoration: none;
+        transition: background 0.2s;
+        margin-top: 4px;
+        display: inline-flex;
+    }
+    .disc-body .disc-email:hover { background: #f8bbd0; }
+    .disc-checkbox-row {
+        display: flex; align-items: flex-start; gap: 12px;
+        background: #fff; border: 1.5px solid #f3d0e8;
+        border-radius: 14px; padding: 14px 18px;
+        margin-bottom: 28px; text-align: left; cursor: pointer;
+        transition: border-color 0.2s, box-shadow 0.2s;
+    }
+    .disc-checkbox-row:hover { border-color: #c2185b; box-shadow: 0 0 0 3px rgba(194,24,91,0.08); }
+    .disc-checkbox-row input[type="checkbox"] {
+        width: 20px; height: 20px; accent-color: #c2185b;
+        cursor: pointer; flex-shrink: 0; margin-top: 2px;
+    }
+    .disc-checkbox-row label {
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.88rem; color: #4a3f55; line-height: 1.55; cursor: pointer;
+    }
+    .disc-checkbox-row label strong { color: #1a1423; }
+    .disc-btns {
+        display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
+    }
+    .disc-btn-enter {
+        background: linear-gradient(135deg, #c2185b, #e91e8c);
+        color: #fff; padding: 14px 20px; border-radius: 50px;
+        border: none; font-family: 'DM Sans', sans-serif;
+        font-size: 0.9rem; font-weight: 700; cursor: pointer;
+        box-shadow: 0 6px 22px rgba(194,24,91,0.32);
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        transition: all 0.3s; opacity: 0.45; pointer-events: none;
+        letter-spacing: 0.2px;
+    }
+    .disc-btn-enter.active {
+        opacity: 1; pointer-events: auto;
+    }
+    .disc-btn-enter.active:hover {
+        transform: translateY(-2px); box-shadow: 0 10px 30px rgba(194,24,91,0.44);
+    }
+    .disc-btn-contact {
+        background: #fff;
+        color: #1565c0;
+        border: 1.5px solid #bbdefb;
+        padding: 14px 20px; border-radius: 50px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.9rem; font-weight: 600; cursor: pointer;
+        display: flex; align-items: center; justify-content: center; gap: 8px;
+        transition: all 0.3s; text-decoration: none;
+        letter-spacing: 0.2px;
+    }
+    .disc-btn-contact:hover {
+        background: #e3f2fd; border-color: #1565c0; transform: translateY(-1px);
+    }
+    .disc-footer-note {
+        margin-top: 22px;
+        font-family: 'DM Sans', sans-serif;
+        font-size: 0.74rem; color: #8e82a0;
+        line-height: 1.6;
+    }
+    @media (max-width: 540px) {
+        .disc-card { padding: 36px 24px; }
+        .disc-card h2 { font-size: 1.5rem; }
+        .disc-btns { grid-template-columns: 1fr; }
+    }
+</style>
+
+<div id="disclaimer-overlay">
+    <div class="disc-card">
+
+        <!-- Logo -->
+        <img src="./spandan-logo.jpg" alt="Spandan Clinic Logo" class="disc-logo">
+
+        <!-- Badge -->
+        <div class="disc-badge">
+            <i class="fas fa-info-circle"></i> Sample Website Notice
+        </div>
+
+        <!-- Heading -->
+        <h2>This is a <span>Sample Website</span> Preview</h2>
+
+        <!-- Disclaimer Body -->
+        <div class="disc-body">
+            <p>
+                👋 Hello! This website is a <strong>demo/sample design</strong> created to show how a professional clinic website can look and work.
+            </p>
+            <p>
+                ✏️ Everything you see — the colors, content, photos, layout, and sections — is <strong>completely customizable</strong> according to your preference.
+            </p>
+            <p>
+                📩 If you like this design and want to discuss further or get your own website made, feel free to reach out:
+            </p>
+            <a href="mailto:rohitventures@protonmail.com" class="disc-email">
+                <i class="fas fa-envelope"></i> rohitventures@protonmail.com
+            </a>
+        </div>
+
+        <!-- Checkbox -->
+        <div class="disc-checkbox-row" onclick="toggleCheck()">
+            <input type="checkbox" id="disc-agree" onchange="toggleBtn(this)">
+            <label for="disc-agree">
+                I understand this is a <strong>sample website</strong> for demonstration purposes only and is not the real Spandan Clinic website.
+            </label>
+        </div>
+
+        <!-- Buttons -->
+        <div class="disc-btns">
+            <button class="disc-btn-enter" id="disc-enter-btn" onclick="enterSite()" disabled>
+                <i class="fas fa-check-circle"></i> View Website
+            </button>
+            <a href="mailto:rohitventures@protonmail.com?subject=Website Design Inquiry – Spandan Clinic&body=Hi Rohit,%0A%0AI saw the sample website for Spandan Superspeciality Clinic and I am interested in discussing further.%0A%0APlease contact me.%0A%0AThank you."
+               class="disc-btn-contact" target="_blank">
+                <i class="fas fa-paper-plane"></i> Contact Rohit
+            </a>
+        </div>
+
+        <p class="disc-footer-note">
+            🔒 By clicking "View Website" you acknowledge this is a demo only.<br>
+            Built by <strong style="color:#c2185b;">Rohit Ventures</strong> · rohitventures@protonmail.com
+        </p>
+
+    </div>
+</div>
+
+<script>
+    function toggleCheck() {
+        var cb = document.getElementById('disc-agree');
+        cb.checked = !cb.checked;
+        toggleBtn(cb);
+    }
+    function toggleBtn(cb) {
+        var btn = document.getElementById('disc-enter-btn');
+        if (cb.checked) {
+            btn.classList.add('active');
+            btn.disabled = false;
+        } else {
+            btn.classList.remove('active');
+            btn.disabled = true;
+        }
+    }
+    function enterSite() {
+        var overlay = document.getElementById('disclaimer-overlay');
+        overlay.classList.add('hide');
+        setTimeout(function() { overlay.style.display = 'none'; }, 650);
+    }
+</script>
+
+
 <!-- PRELOADER -->
 <div id="preloader">
     <div class="preloader-logo">
