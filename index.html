@@ -464,26 +464,32 @@
 
     /* ── RESPONSIVE ── */
     @media (max-width: 1024px) {
-        .hero { grid-template-columns: 1fr; min-height: auto; }
-        .hero-left { padding: 60px 6% 50px; }
-        .hero-right { height: 420px; min-height: unset; }
-        .hero-right::before { background: linear-gradient(to bottom, var(--bg) 0%, rgba(255,255,255,0) 30%); }
+        .hero { grid-template-columns: 1fr; min-height: auto; display: flex; flex-direction: column; }
+        .hero-left { padding: 40px 6% 40px; order: 2; }
+        .hero-right { height: 55vw; min-height: 280px; max-height: 480px; order: 1; width: 100%; }
+        .hero-right::before { background: linear-gradient(to bottom, rgba(255,255,255,0) 60%, var(--bg) 100%); }
         .about-grid, .contact-grid { grid-template-columns: 1fr; gap: 40px; }
         .doctor-wrap { grid-template-columns: 280px 1fr; }
         .footer-grid { grid-template-columns: 1fr 1fr; }
         .gallery-grid { grid-template-columns: 1fr 1fr; grid-template-rows: auto; }
         .g-item.tall { grid-row: auto; }
+        .hero-scroll-hint { display: none; }
     }
     @media (max-width: 768px) {
         .nav-links { display: none; }
         .hamburger { display: flex; }
         .stats-grid { grid-template-columns: 1fr 1fr; }
+        .hero-right { height: 65vw; min-height: 260px; }
+        .hero-badge { font-size: 0.72rem; padding: 6px 14px; }
+        .hero-btns { gap: 10px; }
+        .hero-stats { gap: 0; }
         .doctor-wrap { grid-template-columns: 1fr; }
-        .dr-img img { height: 320px; min-height: unset; }
+        .dr-img img { height: 300px; min-height: unset; }
         .form-row { grid-template-columns: 1fr; }
-        .appt-inner { padding: 32px 24px; }
+        .appt-inner { padding: 28px 20px; }
         .dr-highlights { grid-template-columns: 1fr; }
         .gallery-grid { grid-template-columns: 1fr; }
+        .btn-primary, .btn-secondary { width: 100%; justify-content: center; }
     }
     @media (max-width: 480px) {
         section { padding: 60px 5%; }
@@ -504,8 +510,10 @@
     #disclaimer-overlay {
         position: fixed; inset: 0; z-index: 99999;
         background: linear-gradient(135deg, #fff0f7 0%, #f4f8ff 50%, #fff8fc 100%);
-        display: flex; align-items: center; justify-content: center;
-        padding: 20px;
+        display: flex; align-items: flex-start; justify-content: center;
+        padding: 16px;
+        overflow-y: auto;
+        -webkit-overflow-scrolling: touch;
         transition: opacity 0.6s ease, visibility 0.6s;
     }
     #disclaimer-overlay.hide {
@@ -513,9 +521,10 @@
     }
     .disc-card {
         background: #ffffff;
-        border-radius: 28px;
-        padding: 52px 48px;
-        max-width: 580px; width: 100%;
+        border-radius: 24px;
+        padding: 40px 36px;
+        max-width: 560px; width: 100%;
+        margin: auto;
         box-shadow: 0 24px 80px rgba(194,24,91,0.14), 0 4px 20px rgba(194,24,91,0.08);
         border: 1px solid #f3d0e8;
         text-align: center;
@@ -576,22 +585,24 @@
     }
     .disc-body .disc-email:hover { background: #f8bbd0; }
     .disc-checkbox-row {
-        display: flex; align-items: flex-start; gap: 12px;
+        display: flex; align-items: flex-start; gap: 14px;
         background: #fff; border: 1.5px solid #f3d0e8;
-        border-radius: 14px; padding: 14px 18px;
-        margin-bottom: 28px; text-align: left; cursor: pointer;
+        border-radius: 14px; padding: 16px 18px;
+        margin-bottom: 24px; text-align: left; cursor: pointer;
         transition: border-color 0.2s, box-shadow 0.2s;
+        -webkit-tap-highlight-color: transparent;
+        user-select: none;
     }
     .disc-checkbox-row:hover { border-color: #c2185b; box-shadow: 0 0 0 3px rgba(194,24,91,0.08); }
     .disc-checkbox-row input[type="checkbox"] {
-        width: 20px; height: 20px; accent-color: #c2185b;
-        cursor: pointer; flex-shrink: 0; margin-top: 2px;
+        width: 22px; height: 22px; min-width: 22px; accent-color: #c2185b;
+        cursor: pointer; flex-shrink: 0; margin-top: 1px;
     }
-    .disc-checkbox-row label {
+    .disc-check-text {
         font-family: 'DM Sans', sans-serif;
-        font-size: 0.88rem; color: #4a3f55; line-height: 1.55; cursor: pointer;
+        font-size: 0.88rem; color: #4a3f55; line-height: 1.6; cursor: pointer;
     }
-    .disc-checkbox-row label strong { color: #1a1423; }
+    .disc-check-text strong { color: #1a1423; }
     .disc-btns {
         display: grid; grid-template-columns: 1fr 1fr; gap: 14px;
     }
@@ -631,10 +642,17 @@
         font-size: 0.74rem; color: #8e82a0;
         line-height: 1.6;
     }
-    @media (max-width: 540px) {
-        .disc-card { padding: 36px 24px; }
-        .disc-card h2 { font-size: 1.5rem; }
-        .disc-btns { grid-template-columns: 1fr; }
+    @media (max-width: 600px) {
+        #disclaimer-overlay { padding: 12px; align-items: flex-start; }
+        .disc-card { padding: 28px 20px; border-radius: 20px; margin: 8px auto; }
+        .disc-card h2 { font-size: 1.4rem; }
+        .disc-logo { width: 80px; margin-bottom: 16px; }
+        .disc-body { padding: 16px 16px; }
+        .disc-body p { font-size: 0.88rem; }
+        .disc-btns { grid-template-columns: 1fr; gap: 10px; }
+        .disc-btn-enter, .disc-btn-contact { padding: 16px 20px; font-size: 0.92rem; min-height: 52px; }
+        .disc-checkbox-row { padding: 14px 14px; }
+        .disc-footer-note { font-size: 0.72rem; }
     }
 </style>
 
@@ -669,12 +687,12 @@
         </div>
 
         <!-- Checkbox -->
-        <div class="disc-checkbox-row" onclick="toggleCheck()">
+        <label class="disc-checkbox-row" for="disc-agree">
             <input type="checkbox" id="disc-agree" onchange="toggleBtn(this)">
-            <label for="disc-agree">
+            <span class="disc-check-text">
                 I understand this is a <strong>sample website</strong> for demonstration purposes only and is not the real Spandan Clinic website.
-            </label>
-        </div>
+            </span>
+        </label>
 
         <!-- Buttons -->
         <div class="disc-btns">
@@ -696,11 +714,6 @@
 </div>
 
 <script>
-    function toggleCheck() {
-        var cb = document.getElementById('disc-agree');
-        cb.checked = !cb.checked;
-        toggleBtn(cb);
-    }
     function toggleBtn(cb) {
         var btn = document.getElementById('disc-enter-btn');
         if (cb.checked) {
@@ -847,8 +860,11 @@
     <!-- Mobile responsive style -->
     <style>
     @media (max-width: 768px) {
-        #doctor-welcome > div { grid-template-columns: 1fr !important; gap: 28px !important; }
-        #doctor-welcome > div > div:first-child img { height: 300px !important; }
+        #doctor-welcome { padding: 40px 5% !important; }
+        #doctor-welcome > div { grid-template-columns: 1fr !important; gap: 24px !important; }
+        #doctor-welcome > div > div:first-child { order: 1; }
+        #doctor-welcome > div > div:first-child img { height: 280px !important; }
+        #doctor-welcome > div > div:last-child { order: 2; }
         #doctor-welcome > div > div:last-child > div[style*="grid-template-columns:1fr 1fr"] { grid-template-columns: 1fr 1fr !important; }
     }
     @media (max-width: 480px) {
